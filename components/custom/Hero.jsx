@@ -2,9 +2,32 @@
 import React from 'react'
 import { LayoutTextFlip } from '../ui/layout-text-flip'
 import { Button } from '../ui/stateful-button'
-import Image from 'next/image';
+import Image from 'next/image'
+import { useGoogleLogin } from '@react-oauth/google'
 
 function Hero() {
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log('Login Success:', tokenResponse);
+      // Here you can handle the successful login
+      // For example, store the token or redirect the user
+    },
+    onError: (error) => {
+      console.log('Login Failed:', error);
+    },
+    flow: 'implicit',
+  });
+
+  const handleTryDemo = () => {
+    console.log('Demo clicked - initiating sign in...');
+    login();
+  };
+
+  const handleGetStarted = () => {
+    console.log('Get Started clicked - initiating sign in...');
+    login();
+  };
+
   return (
     <div className='px-10 md:px-28 lg:px-44 xl:px-56 flex flex-col items-center mt-24 text-center
     '
@@ -24,13 +47,13 @@ function Hero() {
       <div className='flex gap-5 mt-6'>
        <Button 
          className="bg-[#7f57f1] hover:ring-[#7f57f1]"
-         onClick={() => console.log('Demo clicked')}
+         onClick={handleTryDemo}
        >
          Try Demo
        </Button>
        <Button 
          className="bg-[#7f57f1] hover:ring-[#7f57f1]"
-         onClick={() => console.log('Get Started clicked')}
+         onClick={handleGetStarted}
        >
          Get Started
        </Button>
